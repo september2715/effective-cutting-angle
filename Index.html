@@ -1,0 +1,132 @@
+
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>대패 적용절삭각 계산기</title>
+  <style>
+    :root {
+      --main-color: #4CAF50;
+      --bg-color: #f4f4f4;
+      --text-color: #333;
+      --card-bg: #fff;
+      --shadow: 0 4px 10px rgba(0,0,0,0.1);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      background-color: var(--bg-color);
+      padding: 20px;
+      margin: 0;
+      color: var(--text-color);
+    }
+
+    .calculator {
+      background: var(--card-bg);
+      padding: 20px;
+      border-radius: 12px;
+      max-width: 500px;
+      width: 100%;
+      margin: auto;
+      box-shadow: var(--shadow);
+    }
+
+    h2 {
+      text-align: center;
+      font-size: 1.5rem;
+      margin-bottom: 1.5rem;
+    }
+
+    label {
+      font-weight: 500;
+      margin-bottom: 0.5rem;
+      display: block;
+    }
+
+    input {
+      width: 100%;
+      padding: 12px;
+      font-size: 1rem;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      margin-bottom: 1rem;
+    }
+
+    button {
+      width: 100%;
+      padding: 12px;
+      background-color: var(--main-color);
+      color: white;
+      font-size: 1rem;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #45a049;
+    }
+
+    #result {
+      text-align: center;
+      font-size: 1.25rem;
+      margin-top: 1.5rem;
+      font-weight: bold;
+    }
+
+    @media (max-width: 600px) {
+      .calculator {
+        padding: 16px;
+        border-radius: 10px;
+      }
+      h2 {
+        font-size: 1.25rem;
+      }
+      input, button {
+        font-size: 1rem;
+        padding: 10px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="calculator">
+    <h2>대패 적용절삭각 계산기</h2>
+    <label for="rake">대패날 각도 (도)</label>
+    <input type="number" id="rake" step="any" placeholder="예: 15">
+
+    <label for="inclination">대패 꺾은 각도 (도)</label>
+    <input type="number" id="inclination" step="any" placeholder="예: 20">
+
+    <button onclick="calculateAngle()">계산하기</button>
+
+    <div id="result"></div>
+  </div>
+
+  <script>
+    function calculateAngle() {
+      const rake = parseFloat(document.getElementById('rake').value);
+      const inclination = parseFloat(document.getElementById('inclination').value);
+
+      if (isNaN(rake) || isNaN(inclination)) {
+        document.getElementById('result').innerText = '각도를 정확히 입력해주세요';
+        return;
+      }
+
+      const rakeRad = rake * Math.PI / 180;
+      const inclinationRad = inclination * Math.PI / 180;
+
+      const effectiveRakeRad = Math.atan(Math.tan(rakeRad) * Math.cos(inclinationRad));
+      const effectiveRakeDeg = effectiveRakeRad * 180 / Math.PI;
+
+      document.getElementById('result').innerText = `적용절삭각: ${effectiveRakeDeg.toFixed(2)} 도`;
+    }
+  </script>
+</body>
+</html>
